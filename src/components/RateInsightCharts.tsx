@@ -94,11 +94,11 @@ function TrendChart({ metrics, from, to }: { metrics: DerivedRateMetrics; from: 
       </div>
       <svg viewBox="0 0 640 240" className="w-full h-auto overflow-visible">
         {[0, 1, 2, 3].map((line) => (
-          <line key={line} x1="48" x2="608" y1={28 + line * 56} y2={28 + line * 56} stroke="#f1f5f9" strokeWidth="1.5" />
+          <line key={line} x1="48" x2="608" y1={28 + line * 56} y2={28 + line * 56} stroke="#c7d6e7" strokeWidth="1.5" />
         ))}
-        <path d={rawPath} fill="none" stroke="#cbd5e1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-        <path d={longPath} fill="none" stroke="#f59e0b" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-        <path d={shortPath} fill="none" stroke="#4f46e5" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+        <path d={rawPath} fill="none" stroke="#796996" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <path d={longPath} fill="none" stroke="#f0b860" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d={shortPath} fill="none" stroke="#2864a0" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
         <text x="48" y="222" className="fill-slate-400 text-[11px] font-semibold">
           {from}/{to}
         </text>
@@ -107,9 +107,9 @@ function TrendChart({ metrics, from, to }: { metrics: DerivedRateMetrics; from: 
         </text>
       </svg>
       <div className="flex flex-wrap gap-3 text-[11px] font-bold text-slate-500">
-        <span className="inline-flex items-center gap-1"><span className="w-3 h-0.5 bg-slate-300" />原始匯率</span>
-        <span className="inline-flex items-center gap-1"><span className="w-3 h-0.5 bg-indigo-600" />短均線</span>
-        <span className="inline-flex items-center gap-1"><span className="w-3 h-0.5 bg-amber-500" />長均線</span>
+        <span className="inline-flex items-center gap-1"><span className="w-3 h-0.5 bg-fx-secondary" />原始匯率</span>
+        <span className="inline-flex items-center gap-1"><span className="w-3 h-0.5 bg-fx-primary" />短均線</span>
+        <span className="inline-flex items-center gap-1"><span className="w-3 h-0.5 bg-fx-accent" />長均線</span>
       </div>
     </div>
   );
@@ -128,9 +128,9 @@ function ZoneChart({ metrics }: { metrics: DerivedRateMetrics }) {
       </div>
       <div className="relative pt-8 pb-8">
         <div className="h-10 overflow-hidden rounded-xl border border-slate-100 flex">
-          <div className="bg-emerald-100 w-1/5" />
+          <div className="bg-fx-positive/25 w-1/5" />
           <div className="bg-slate-100 flex-1" />
-          <div className="bg-rose-100 w-1/5" />
+          <div className="bg-fx-negative/25 w-1/5" />
         </div>
         <div className="absolute top-0 -translate-x-1/2" style={{ left: `${pointer}%` }}>
           <div className="rounded-lg bg-slate-900 px-2 py-1 text-[11px] font-bold text-white shadow-sm whitespace-nowrap">
@@ -197,7 +197,7 @@ function MomentumGauge({ metrics }: { metrics: DerivedRateMetrics }) {
         <p className="text-xs text-slate-400 mt-1">以短均線相對長均線的差距估算動能，搭配波動率做保守提醒。</p>
       </div>
       <div className="relative py-8">
-        <div className="h-5 rounded-full bg-gradient-to-r from-emerald-400 via-slate-200 to-rose-400" />
+        <div className="h-5 rounded-full bg-gradient-to-r from-fx-positive via-fx-accent to-fx-negative" />
         <div className="absolute top-3 -translate-x-1/2" style={{ left: `${pointer}%` }}>
           <div className="h-14 w-1 rounded-full bg-slate-900 shadow-sm" />
         </div>

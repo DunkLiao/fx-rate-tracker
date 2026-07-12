@@ -269,7 +269,7 @@ export default function App() {
   });
 
   return (
-    <div className="min-h-screen bg-slate-50/50 text-slate-700 antialiased font-sans flex flex-col justify-between">
+    <div className="min-h-screen bg-fx-background text-fx-text-primary antialiased font-sans flex flex-col justify-between">
       {/* Dynamic Toast System Overlay */}
       <AnimatePresence>
         {activeToast && (
@@ -310,21 +310,21 @@ export default function App() {
       {/* Main Container */}
       <div className="w-full max-w-7xl mx-auto px-4 py-8 space-y-6 flex-1">
         {/* Elegant Dashboard Header */}
-        <div id="app-header" className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-6">
+        <div id="app-header" className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-fx-border pb-6">
           <div>
             <div className="flex items-center gap-2.5 mb-1.5">
-              <div className="p-2 bg-indigo-600 text-white rounded-xl shadow-md shadow-indigo-600/10">
+              <div className="p-2 bg-fx-primary text-white rounded-xl shadow-md shadow-indigo-600/10">
                 <Coins className="w-5 h-5" />
               </div>
-              <h1 className="text-2xl font-black text-slate-800 tracking-tight">
+              <h1 className="text-2xl font-black text-fx-text-primary tracking-tight">
                 換匯走勢小工具
               </h1>
-              <span className="text-xs bg-indigo-50 text-indigo-600 font-bold px-2.5 py-0.5 rounded-full border border-indigo-100 flex items-center gap-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse" />
+              <span className="text-xs bg-fx-primary/25 text-fx-text-secondary font-bold px-2.5 py-0.5 rounded-full border border-fx-secondary flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-fx-accent animate-pulse" />
                 Live 監控
               </span>
             </div>
-            <p className="text-sm text-slate-400">
+            <p className="text-sm text-fx-text-secondary">
               即時跨國匯率折算與歷史趨勢分析，整合到價即時通知與換算紀錄。
             </p>
           </div>
@@ -332,7 +332,7 @@ export default function App() {
           {/* Controls & Server Status indicators */}
           <div className="flex flex-wrap items-center gap-2.5 sm:self-center">
             {/* Server Status Indicators */}
-            <div className="flex items-center gap-1.5 bg-slate-100 px-3 py-1.5 rounded-xl border border-slate-200/60 text-[11px] font-semibold text-slate-500">
+            <div className="flex items-center gap-1.5 bg-fx-surface px-3 py-1.5 rounded-xl border border-fx-border/60 text-[11px] font-semibold text-slate-700">
               <Wifi className={`w-3.5 h-3.5 ${connectionStatus === 'connected' ? 'text-emerald-500' : 'text-rose-500'}`} />
               <span>{connectionStatus === 'connected' ? '外匯伺服器：連線正常' : '外匯伺服器：斷線 (本地)'}</span>
             </div>
@@ -342,7 +342,7 @@ export default function App() {
               id="btn-manual-refresh"
               onClick={() => fetchLiveRates()}
               disabled={isRefreshing}
-              className="flex items-center gap-1.5 bg-white hover:bg-slate-50 text-slate-700 hover:text-indigo-600 font-bold text-xs py-2 px-3.5 rounded-xl border border-slate-200 shadow-sm transition active:scale-[0.98] cursor-pointer disabled:opacity-60"
+              className="flex items-center gap-1.5 bg-fx-surface hover:bg-slate-50 text-slate-700 hover:text-fx-hover font-bold text-xs py-2 px-3.5 rounded-xl border border-fx-border shadow-sm transition active:scale-[0.98] cursor-pointer disabled:opacity-60"
             >
               <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin text-indigo-600' : ''}`} />
               手動刷新匯率
@@ -659,7 +659,7 @@ export default function App() {
       </div>
 
       {/* Elegant Footer with Project Metadata */}
-      <footer className="border-t border-slate-200 bg-white py-6 text-center text-xs text-slate-400 mt-12 relative">
+      <footer className="border-t border-fx-border bg-fx-background py-6 text-center text-xs text-fx-text-secondary mt-12 relative">
         <div className="w-full max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="font-medium">
             © 2026 換匯走勢小工具

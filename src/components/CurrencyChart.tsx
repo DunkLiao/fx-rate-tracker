@@ -287,11 +287,11 @@ export default function CurrencyChart({
               {/* Gradients */}
               <defs>
                 <linearGradient id="chart-gradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="rgb(99, 102, 241)" stopOpacity="0.22" />
-                  <stop offset="100%" stopColor="rgb(99, 102, 241)" stopOpacity="0.00" />
+                  <stop offset="0%" stopColor="#2864a0" stopOpacity="0.26" />
+                  <stop offset="100%" stopColor="#2864a0" stopOpacity="0.00" />
                 </linearGradient>
                 <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
-                  <feDropShadow dx="0" dy="4" stdDeviation="4" floodColor="rgb(99, 102, 241)" floodOpacity="0.15" />
+                  <feDropShadow dx="0" dy="4" stdDeviation="4" floodColor="#2864a0" floodOpacity="0.18" />
                 </filter>
               </defs>
 
@@ -303,7 +303,7 @@ export default function CurrencyChart({
                     y1={tick.y}
                     x2={containerWidth - paddingRight}
                     y2={tick.y}
-                    stroke="#f1f5f9"
+                    stroke="#c7d6e7"
                     strokeWidth="1.5"
                     strokeDasharray={i === 0 ? '0' : '4 4'}
                   />
@@ -311,7 +311,7 @@ export default function CurrencyChart({
                     x={paddingLeft - 8}
                     y={tick.y + 4}
                     textAnchor="end"
-                    fill="#94a3b8"
+                    fill="#4a5568"
                     className="font-mono text-[10px] font-medium"
                   >
                     {tick.val.toFixed(2)}
@@ -329,7 +329,7 @@ export default function CurrencyChart({
                   <path
                     d={linePath}
                     fill="none"
-                    stroke="rgb(99, 102, 241)"
+                    stroke="#2864a0"
                     strokeWidth="2.5"
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -346,14 +346,14 @@ export default function CurrencyChart({
                     y1={paddingTop}
                     x2={tick.x}
                     y2={paddingTop + chartHeight}
-                    stroke="#f8fafc"
+                    stroke="#d9e4f1"
                     strokeWidth="1.5"
                   />
                   <text
                     x={tick.x}
                     y={paddingTop + chartHeight + 18}
                     textAnchor="middle"
-                    fill="#94a3b8"
+                    fill="#4a5568"
                     className="text-[10px] font-medium"
                   >
                     {tick.label}
@@ -375,13 +375,13 @@ export default function CurrencyChart({
                           y1={paddingTop}
                           x2={x}
                           y2={paddingTop + chartHeight}
-                          stroke="#818cf8"
+                          stroke="#796996"
                           strokeWidth="1.5"
                           strokeDasharray="3 3"
                         />
                         {/* Circle highlight */}
-                        <circle cx={x} cy={y} r="6" fill="#4f46e5" stroke="#ffffff" strokeWidth="2" />
-                        <circle cx={x} cy={y} r="10" fill="#4f46e5" fillOpacity="0.15" />
+                        <circle cx={x} cy={y} r="6" fill="#f0b860" stroke="#ffffff" strokeWidth="2" />
+                        <circle cx={x} cy={y} r="10" fill="#f0b860" fillOpacity="0.18" />
                       </>
                     );
                   })()}
@@ -394,7 +394,7 @@ export default function CurrencyChart({
                 y1={paddingTop + chartHeight}
                 x2={containerWidth - paddingRight}
                 y2={paddingTop + chartHeight}
-                stroke="#e2e8f0"
+                stroke="#4a5568"
                 strokeWidth="1"
               />
             </svg>
