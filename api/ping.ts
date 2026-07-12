@@ -1,4 +1,4 @@
-import { getLatestRates } from './_lib/rates';
+import { getLatestRates } from './shared/rates';
 
 export default async function handler(req: any, res: any) {
   const data = await getLatestRates();
