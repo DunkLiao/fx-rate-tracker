@@ -1,12 +1,12 @@
 import { getHistory } from '../src/lib/ratesApi';
 
-export function OPTIONS() {
-  return new Response(null, { status: 204 });
-}
+export default async function handler(request: Request): Promise<Response> {
+  if (request.method === 'OPTIONS') {
+    return new Response(null, { status: 204 });
+  }
 
-export async function GET(request: Request) {
   try {
-    const url = new URL(request.url);
+    const url = new URL(request.url, 'https://localhost');
     const from = url.searchParams.get('from') || 'USD';
     const to = url.searchParams.get('to') || 'TWD';
     const period = url.searchParams.get('period') || '1M';

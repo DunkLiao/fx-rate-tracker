@@ -1,10 +1,10 @@
 import { getLatestRates } from '../src/lib/ratesApi';
 
-export function OPTIONS() {
-  return new Response(null, { status: 204 });
-}
+export default async function handler(request: Request): Promise<Response> {
+  if (request.method === 'OPTIONS') {
+    return new Response(null, { status: 204 });
+  }
 
-export async function GET() {
   try {
     const data = await getLatestRates();
     return new Response(JSON.stringify({ success: true, base: 'USD', ...data }), {
