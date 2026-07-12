@@ -1,3 +1,5 @@
+import { BASELINES } from '../src/lib/ratesApi';
+
 export default async function handler(req: any, res: any) {
-  return res.status(200).json({ ok: true, time: Date.now() });
+  return res.status(200).json({ ok: true, count: Object.keys(BASELINES).length });
 }
