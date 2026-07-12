@@ -94,11 +94,11 @@ function TrendChart({ metrics, from, to }: { metrics: DerivedRateMetrics; from: 
       </div>
       <svg viewBox="0 0 640 240" className="w-full h-auto overflow-visible">
         {[0, 1, 2, 3].map((line) => (
-          <line key={line} x1="48" x2="608" y1={28 + line * 56} y2={28 + line * 56} stroke="#c7d6e7" strokeWidth="1.5" />
+          <line key={line} x1="48" x2="608" y1={28 + line * 56} y2={28 + line * 56} stroke="#F2DDB8" strokeWidth="1.5" />
         ))}
-        <path d={rawPath} fill="none" stroke="#796996" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-        <path d={longPath} fill="none" stroke="#f0b860" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-        <path d={shortPath} fill="none" stroke="#2864a0" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+        <path d={rawPath} fill="none" stroke="#FF6B35" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <path d={longPath} fill="none" stroke="#FFD23F" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d={shortPath} fill="none" stroke="#FF4D6D" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
         <text x="48" y="222" className="fill-slate-400 text-[11px] font-semibold">
           {from}/{to}
         </text>
@@ -171,7 +171,7 @@ function VolatilityChart({ metrics }: { metrics: DerivedRateMetrics }) {
             <div key={change.date} className="flex-1 h-full flex flex-col justify-center">
               <div
                 title={`${change.date} ${change.changePercent}%`}
-                className={`w-full rounded-sm ${change.changePercent >= 0 ? 'bg-emerald-500' : 'bg-rose-500'}`}
+                className={`w-full rounded-sm ${change.changePercent >= 0 ? 'bg-rose-500' : 'bg-emerald-500'}`}
                 style={{ height: `${height}px`, opacity: 0.35 + (height / 88) * 0.55 }}
               />
             </div>
