@@ -22,16 +22,16 @@ import {
   AlertThreshold,
 } from './types';
 import CurrencyChart from './components/CurrencyChart';
-import AIAssistant from './components/AIAssistant';
+import RateInsightCharts from './components/RateInsightCharts';
 import RateAlerts from './components/RateAlerts';
 import ConversionHistory from './components/ConversionHistory';
+import { calculateConvertedAmount, calculatePairRate } from './lib/conversion';
 
 export default function App() {
   // --- States ---
   const [fromCurrency, setFromCurrency] = useState('USD');
   const [toCurrency, setToCurrency] = useState('TWD');
   const [fromAmount, setFromAmount] = useState<number>(1000);
-  const [toAmount, setToAmount] = useState<number>(0);
   
   // Rate monitoring & loading
   const [rates, setRates] = useState<Record<string, number>>({});
@@ -130,16 +130,6 @@ export default function App() {
     }
   }, [fromCurrency, toCurrency, period, rates, fetchHistoricalRates]);
 
-  // Recalculate output amount whenever input or currencies change
-  useEffect(() => {
-    if (rates[fromCurrency] && rates[toCurrency]) {
-      const fromRate = rates[fromCurrency];
-      const toRate = rates[toCurrency];
-      const calculated = (fromAmount * toRate) / fromRate;
-      setToAmount(Number(calculated.toFixed(4)));
-    }
-  }, [fromAmount, fromCurrency, toCurrency, rates]);
-
   // Persist alerts & logs
   useEffect(() => {
     localStorage.setItem('exchange_alerts', JSON.stringify(alerts));
@@ -148,6 +138,8 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem('exchange_records', JSON.stringify(records));
   }, [records]);
+
+  const toAmount = calculateConvertedAmount(fromAmount, fromCurrency, toCurrency, rates);
 
   // --- Handlers & Helpers ---
   const triggerToast = (message: string, type: 'success' | 'alert' = 'success') => {
@@ -333,7 +325,7 @@ export default function App() {
               </span>
             </div>
             <p className="text-sm text-slate-400">
-              即時跨國匯率折算與歷史趨勢分析，整合 AI 外匯金融分析大腦與到價即時通知。
+              即時跨國匯率折算與歷史趨勢分析，整合到價即時通知與換算紀錄。
             </p>
           </div>
 
@@ -537,7 +529,7 @@ export default function App() {
                     <tr className="border-b border-slate-100 text-slate-400 font-bold">
                       <th className="py-2 pb-3">貨幣</th>
                       <th className="py-2 pb-3">全名</th>
-                      <th className="py-2 pb-3 text-right">當前匯率 (對USD)</th>
+                      <th className="py-2 pb-3 text-right">當前匯率 (對 {fromCurrency})</th>
                       <th className="py-2 pb-3 text-right">折算金額</th>
                       <th className="py-2 pb-3 text-right">動作</th>
                     </tr>
@@ -553,13 +545,8 @@ export default function App() {
                       </tr>
                     ) : (
                       filteredCurrencies.map((c) => {
-                        // Calculate conversion of current fromAmount into c.code
-                        const fromRate = rates[fromCurrency] || 1;
-                        const targetRate = rates[c.code] || 1;
-                        const valueInTarget = (fromAmount * targetRate) / fromRate;
-
-                        // Calculate direct exchange rate From -> Target
-                        const directRate = Number((targetRate / fromRate).toFixed(4));
+                        const valueInTarget = calculateConvertedAmount(fromAmount, fromCurrency, c.code, rates);
+                        const directRate = calculatePairRate(fromCurrency, c.code, rates);
 
                         const isBase = c.code === fromCurrency;
                         const isTarget = c.code === toCurrency;
@@ -577,7 +564,7 @@ export default function App() {
                             </td>
                             <td className="py-3 text-slate-500 font-semibold">{c.name}</td>
                             <td className="py-3 text-right font-mono text-slate-600">
-                              {rates[c.code]}
+                              {directRate}
                             </td>
                             <td className="py-3 text-right font-bold font-mono">
                               {isBase ? (
@@ -618,18 +605,19 @@ export default function App() {
               </div>
             </div>
 
-          </div>
-
-          {/* RIGHT PANEL: CO-PILOT ASSISTANT, HISTORY, ALERTS (5 cols) */}
-          <div className="lg:col-span-5 space-y-6">
-            
-            {/* AI SMART ANALYSIS REPORT CO-PILOT */}
-            <AIAssistant
+            <RateInsightCharts
               from={fromCurrency}
               to={toCurrency}
-              period={period}
               currentRate={currentCrossRate}
+              historicalData={historicalData}
+              alerts={alerts}
+              isLoading={historicalLoading}
             />
+
+          </div>
+
+          {/* RIGHT PANEL: HISTORY & ALERTS (5 cols) */}
+          <div className="lg:col-span-5 space-y-6">
 
             {/* DYNAMIC RATE TRIGGER ALERTS MANAGER */}
             <RateAlerts
@@ -674,12 +662,12 @@ export default function App() {
       <footer className="border-t border-slate-200 bg-white py-6 text-center text-xs text-slate-400 mt-12 relative">
         <div className="w-full max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="font-medium">
-            © 2026 換匯走勢小工具 · 基於 React 18, Vite 與 Express 構建
+            © 2026 換匯走勢小工具
           </p>
           <div className="flex items-center gap-4 text-slate-400 font-semibold">
             <span className="flex items-center gap-1 text-[11px] text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-100">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              Gemini AI 分析大腦上線中
+              匯率監控上線中
             </span>
           </div>
         </div>

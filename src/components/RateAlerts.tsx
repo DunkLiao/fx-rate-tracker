@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Bell, Trash2, Plus, BellRing, Info, ShieldCheck } from 'lucide-react';
 import { AlertThreshold, SUPPORTED_CURRENCIES } from '../types';
+import { formatCurrencyOptionLabel } from '../lib/currencyLabels';
 
 interface RateAlertsProps {
   alerts: AlertThreshold[];
@@ -59,7 +60,7 @@ export default function RateAlerts({ alerts, onAddAlert, onDeleteAlert, currentR
             設定到價條件
           </p>
 
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 gap-2">
             <div>
               <label className="block text-[11px] font-medium text-slate-400 mb-1">原始幣別</label>
               <select
@@ -70,7 +71,7 @@ export default function RateAlerts({ alerts, onAddAlert, onDeleteAlert, currentR
               >
                 {Object.values(SUPPORTED_CURRENCIES).map((c) => (
                   <option key={c.code} value={c.code}>
-                    {c.flag} {c.code} ({c.name})
+                    {formatCurrencyOptionLabel(c)}
                   </option>
                 ))}
               </select>
@@ -85,7 +86,7 @@ export default function RateAlerts({ alerts, onAddAlert, onDeleteAlert, currentR
               >
                 {Object.values(SUPPORTED_CURRENCIES).map((c) => (
                   <option key={c.code} value={c.code}>
-                    {c.flag} {c.code} ({c.name})
+                    {formatCurrencyOptionLabel(c)}
                   </option>
                 ))}
               </select>

@@ -1,20 +1,21 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# 換匯走勢小工具
 
-# Run and deploy your AI Studio app
+Vite React 19 + Express 匯率儀表板，提供即時匯率換算、歷史走勢圖、到價通知與本機換算紀錄。
 
-This contains everything you need to run your app locally.
+## 本機執行
 
-View your app in AI Studio: https://ai.studio/apps/19de3e3e-c7cc-451d-855a-f1a4fb76588b
+**Prerequisites:** Node.js
 
-## Run Locally
-
-**Prerequisites:**  Node.js
-
-
-1. Install dependencies:
+1. 安裝依賴：
    `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
+2. 啟動開發伺服器：
    `npm run dev`
+3. 開啟瀏覽器：
+   `http://localhost:3000`
+
+## 常用指令
+
+- `npm run lint`: 執行 TypeScript 檢查。
+- `npm run build`: 建置前端並打包 Express server 到 `dist/server.cjs`。
+- `npm start`: 執行 production bundle。
+- `npm run clean`: 移除 `dist/`。

@@ -1,7 +1,6 @@
 import express from 'express';
 import path from 'path';
 import { createServer as createViteServer } from 'vite';
-import { GoogleGenAI, Type } from '@google/genai';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -10,16 +9,6 @@ const app = express();
 const PORT = 3000;
 
 app.use(express.json());
-
-// Initialize Gemini SDK with telemetry header
-const ai = new GoogleGenAI({
-  apiKey: process.env.GEMINI_API_KEY,
-  httpOptions: {
-    headers: {
-      'User-Agent': 'aistudio-build',
-    },
-  },
-});
 
 // Baseline rates relative to USD (1 USD = X Currency)
 const BASELINES: Record<string, number> = {
@@ -183,94 +172,6 @@ app.get('/api/history', async (req, res) => {
     });
   } catch (error: any) {
     res.status(500).json({ success: false, error: error.message });
-  }
-});
-
-// 3. POST /api/analyze
-// Request body: AIAnalysisRequest
-app.post('/api/analyze', async (req, res) => {
-  try {
-    const { from, to, period, currentRate, customQuestion } = req.body;
-
-    if (!from || !to) {
-      res.status(400).json({ success: false, error: 'Missing from or to currency' });
-      return;
-    }
-
-    // Construct detailed instruction prompt
-    let prompt = `你是一位資深的國際外匯市場分析師（使用繁體中文）。
-請分析貨幣對 ${from} 到 ${to} 於時間區間「${period}」的匯率走勢（當前匯率為：${currentRate}）。
-`;
-
-    if (customQuestion) {
-      prompt += `\n使用者特別提出了以下具體問題，請在回答中「優先且詳盡地」解答：\n「${customQuestion}」\n`;
-    } else {
-      prompt += `\n請提供一個客觀深入的分析，包含：
-1. 該貨幣對的近期趨勢（上升、下跌或持平）與主要成因。
-2. 影響這兩種貨幣的三個關鍵經濟因素（如利差、政策、通膨或地緣政治）。
-3. 實用的換匯操作策略或時機點建議。
-4. 預估的合理買進（支撐）與賣出（阻力）匯率區間。`;
-    }
-
-    prompt += `\n請嚴格按照以下 JSON Schema 格式進行回覆，不要包含 markdown 標籤或其餘雜訊，確保可以直接被 parse：`;
-
-    const response = await ai.models.generateContent({
-      model: 'gemini-3.5-flash',
-      contents: prompt,
-      config: {
-        systemInstruction: '你是一個專業、精準、口吻客觀的金融理財與外匯交易分析師，一律使用繁體中文（台灣口吻）回覆。請確保輸出的 JSON 格式絕對正確，且無任何前後 markdown 格式包裝。',
-        responseMimeType: 'application/json',
-        responseSchema: {
-          type: Type.OBJECT,
-          properties: {
-            summary: {
-              type: Type.STRING,
-              description: '關於走勢的繁體中文深度分析摘要。若使用者有提問，需包含解答。',
-            },
-            trend: {
-              type: Type.STRING,
-              description: '走勢判斷。必須為 "up" (上升), "down" (下跌) 或 "stable" (持平) 之一。',
-            },
-            factors: {
-              type: Type.ARRAY,
-              items: { type: Type.STRING },
-              description: '影響此匯率走勢的 3 個關鍵經濟或事件因素。',
-            },
-            advice: {
-              type: Type.STRING,
-              description: '給使用者的實用換匯操作時機或資金分配建議。',
-            },
-            suggestedLevels: {
-              type: Type.OBJECT,
-              properties: {
-                buy: { type: Type.NUMBER, description: '建議買進（支撐位）的參考匯率數值' },
-                sell: { type: Type.NUMBER, description: '建議賣出（阻力位）的參考匯率數值' },
-              },
-              required: ['buy', 'sell'],
-            },
-            answer: {
-              type: Type.STRING,
-              description: '如果有 customQuestion，這裡填寫專門針對使用者問題的詳細解答；如果沒有，此欄位可以為空。',
-            },
-          },
-          required: ['summary', 'trend', 'factors', 'advice', 'suggestedLevels'],
-        },
-      },
-    });
-
-    const text = response.text || '{}';
-    const analysisData = JSON.parse(text);
-
-    res.json({
-      success: true,
-      analysis: analysisData,
-    });
-  } catch (error: any) {
-    console.error('Gemini API analysis failed:', error);
-    res.status(500).json({
-      success: false,
-      error: 'AI 分析服務暫時無法使用：' + error.message,
-    });
   }
 });
 

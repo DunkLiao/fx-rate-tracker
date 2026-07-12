@@ -44,26 +44,6 @@ export interface HistoricalRatesResponse {
   };
 }
 
-export interface AIAnalysisRequest {
-  from: string;
-  to: string;
-  period: string;
-  currentRate: number;
-  customQuestion?: string;
-}
-
-export interface AIAnalysisResponse {
-  summary: string;
-  trend: 'up' | 'down' | 'stable';
-  factors: string[];
-  advice: string;
-  suggestedLevels: {
-    buy: number;
-    sell: number;
-  };
-  answer?: string; // If a custom question was asked
-}
-
 export interface ConversionRecord {
   id: string;
   timestamp: number;

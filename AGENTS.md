@@ -6,7 +6,7 @@ This is a Vite React 19 app with an Express API server. Front-end source lives i
 
 ## Build, Test, and Development Commands
 
-- `npm install`: install React, Vite, Express, Gemini SDK, Tailwind, and TypeScript tooling.
+- `npm install`: install React, Vite, Express, Tailwind, and TypeScript tooling.
 - `npm run dev`: run the local Express/Vite development server through `tsx server.ts`.
 - `npm run lint`: run `tsc --noEmit` for TypeScript validation.
 - `npm run build`: build the Vite client and bundle `server.ts` to `dist/server.cjs`.
@@ -27,4 +27,4 @@ This checkout has no `.git` history, so no local commit convention can be inferr
 
 ## Security & Configuration Tips
 
-Copy `.env.example` to a local environment file and set `GEMINI_API_KEY` for AI analysis features. Do not commit secrets or generated `dist/` output.
+Do not commit secrets or generated `dist/` output. Keep local-only environment values in `.env.local` if future features require them.

@@ -1,6 +1,6 @@
 {
   "name": "換匯走勢小工具",
-  "description": "即時匯率折算與歷史走勢分析工具，支援多國貨幣與 AI 智慧匯率走勢分析。",
+  "description": "即時匯率折算與歷史走勢分析工具，支援多國貨幣、到價通知與換算紀錄。",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": []
 }
