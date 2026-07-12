@@ -15,11 +15,5 @@
         { "key": "Access-Control-Allow-Headers", "value": "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version" }
       ]
     }
-  ],
-  "functions": {
-    "api/*.ts": {
-      "memory": 256,
-      "maxDuration": 10
-    }
-  }
+  ]
 }
