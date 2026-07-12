@@ -1,3 +1,5 @@
+import { fetchWithTimeout } from './cors';
+
 // Baseline rates relative to USD (1 USD = X Currency)
 export const BASELINES: Record<string, number> = {
   USD: 1.0,
@@ -41,8 +43,8 @@ export async function getLatestRates(): Promise<LatestRatesResult> {
   }
 
   try {
-    // We use a free, robust open exchange rate API
-    const response = await fetch('https://open.er-api.com/v6/latest/USD');
+    // We use a free, robust open exchange rate API with a timeout
+    const response = await fetchWithTimeout('https://open.er-api.com/v6/latest/USD', {}, 8000);
     if (!response.ok) {
       throw new Error(`API error: status ${response.status}`);
     }
