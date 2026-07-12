@@ -1,18 +1,21 @@
-import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { getLatestRates } from '../src/lib/ratesApi';
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
-  if (req.method === 'OPTIONS') {
-    res.status(204).end();
-    return;
-  }
+export function OPTIONS() {
+  return new Response(null, { status: 204 });
+}
 
+export async function GET() {
   try {
     const data = await getLatestRates();
-    res.setHeader('Content-Type', 'application/json');
-    res.status(200).json({ success: true, base: 'USD', ...data });
+    return new Response(JSON.stringify({ success: true, base: 'USD', ...data }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    });
   } catch (error: any) {
     console.error('[api/rates] error:', error);
-    res.status(500).json({ success: false, error: error?.message || String(error) });
+    return new Response(JSON.stringify({ success: false, error: error?.message || String(error) }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 }
