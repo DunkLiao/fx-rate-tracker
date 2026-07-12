@@ -1,5 +1,6 @@
-import { BASELINES } from '../src/lib/ratesApi';
+import { getLatestRates } from './_lib/rates';
 
 export default async function handler(req: any, res: any) {
-  return res.status(200).json({ ok: true, count: Object.keys(BASELINES).length });
+  const data = await getLatestRates();
+  return res.status(200).json({ ok: true, count: Object.keys(data.rates).length, source: data.source });
 }
