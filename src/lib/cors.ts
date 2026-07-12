@@ -10,6 +10,11 @@ export function applyCorsHeaders(res: {
   status: (code: number) => any;
   end: () => void;
 }): boolean {
+  if (process.env.VERCEL === '1') {
+    // Vercel routes will handle CORS headers via vercel.json configuration.
+    // We don't set them here to avoid duplicate headers.
+    return false;
+  }
   Object.entries(CORS_HEADERS).forEach(([key, value]) => {
     res.setHeader(key, value);
   });
