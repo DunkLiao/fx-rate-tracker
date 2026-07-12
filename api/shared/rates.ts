@@ -1,4 +1,4 @@
-const BASELINES: Record<string, number> = {
+export const BASELINES: Record<string, number> = {
   USD: 1.0,
   TWD: 32.48,
   JPY: 156.45,
