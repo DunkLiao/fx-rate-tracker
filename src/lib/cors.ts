@@ -5,19 +5,21 @@ export const CORS_HEADERS = {
   'Access-Control-Max-Age': '86400',
 };
 
+const isVercel = process.env.VERCEL === '1' || process.env.VERCEL_ENV !== undefined;
+
 export function applyCorsHeaders(res: {
   setHeader: (key: string, value: string) => void;
   status: (code: number) => any;
   end: () => void;
 }): boolean {
-  if (process.env.VERCEL === '1') {
-    // Vercel routes will handle CORS headers via vercel.json configuration.
-    // We don't set them here to avoid duplicate headers.
-    return false;
+  if (isVercel) return false;
+  try {
+    Object.entries(CORS_HEADERS).forEach(([key, value]) => {
+      res.setHeader(key, value);
+    });
+  } catch {
+    // ignore
   }
-  Object.entries(CORS_HEADERS).forEach(([key, value]) => {
-    res.setHeader(key, value);
-  });
   return false;
 }
 

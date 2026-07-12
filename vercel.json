@@ -2,7 +2,8 @@
   "buildCommand": "vite build",
   "outputDirectory": "dist",
   "rewrites": [
-    { "source": "/((?!api/).*)", "destination": "/index.html" }
+    { "source": "/api/(.*)", "destination": "/api/$1" },
+    { "source": "/(.*)", "destination": "/index.html" }
   ],
   "headers": [
     {
@@ -18,8 +19,7 @@
   "functions": {
     "api/*.ts": {
       "memory": 256,
-      "maxDuration": 10,
-      "includeFiles": "src/lib/**"
+      "maxDuration": 10
     }
   }
 }

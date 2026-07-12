@@ -1,9 +1,12 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { getHistory } from '../src/lib/ratesApi';
-import { handlePreflight } from '../src/lib/cors';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  if (handlePreflight(req.method, res)) return;
+  if (req.method === 'OPTIONS') {
+    res.status(204).end();
+    return;
+  }
+
   try {
     const from = (req.query.from as string) || 'USD';
     const to = (req.query.to as string) || 'TWD';
@@ -12,6 +15,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (!result.success) {
       res.status(400).json(result);
     } else {
+      res.setHeader('Content-Type', 'application/json');
       res.status(200).json(result);
     }
   } catch (error: any) {
